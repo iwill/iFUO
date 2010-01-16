@@ -1,4 +1,4 @@
 db/*.sqlite3
 log/*.log
 tmp/**/*
-vendor/gems/**/*
+vendor/gems
