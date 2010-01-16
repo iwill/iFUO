@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: Coding
+  hours: 4
+  done: true
+
+two:
+  name: Review
+  hours: 3
+  done: false
