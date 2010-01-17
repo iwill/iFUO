@@ -1,0 +1,45 @@
+#resources-graph-legend {
+    margin-top: -10px;
+    padding-left: 15px;
+}
+
+.resources-graph-legend-item {
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 15px;
+    vertical-align: top;
+}
+
+.resources-graph-legend-item.total {
+    margin-left: 10px;
+}
+
+.resources-graph-legend-label {
+    display: inline-block;
+    text-align: left;
+}
+
+.resources-graph-legend-header {
+    font-size: 12px;
+}
+
+.resources-graph-legend-value {
+    font-size: 10px;
+}
+
+.resources-graph-legend-swatch {
+    vertical-align: top;
+    margin-top: 1px;
+    margin-right: 3px;
+}
+
+#tasks { list-style-type: numburic; margin: 0; padding: 0; width: 60%; }
+#tasks li { margin: 2px 3px 3px 20px; padding: 0.4em; padding-left: 1.5em;  height: 28px; }
+#tasks li span {position: absolute; margin-left: -1.3em; }
+#tasks .detail {margin: 0 3px 3px 3px; font-size:0.8em; color:#999;}
+
+label {display:block; width:100px;}
+
+#submit_div {margin:20px 3px 20px 3px;}
+
+.input_hour { float:right; }
