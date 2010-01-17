@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100116115652) do
+ActiveRecord::Schema.define(:version => 20100117085530) do
 
   create_table "tasks", :force => true do |t|
     t.string   "name"
@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(:version => 20100116115652) do
     t.boolean  "done"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "active"
+    t.integer  "priority"
   end
 
   create_table "timelogs", :force => true do |t|
@@ -26,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20100116115652) do
     t.integer  "task_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "task_name"
   end
 
 end
