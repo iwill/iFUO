@@ -3,13 +3,13 @@ class TimelogsController < ApplicationController
   # GET /timelogs
   def index
     @timelogs = Timelog.all
-    render :json => @timelogs 
+    render :json => @timelogs.to_json
   end
 
   # GET /timelogs/1
   def show
     @timelog = Timelog.find(params[:id])
-    render :json => @timelog 
+    render :json => @timelog.to_json 
   end
 
   # POST /timelogs
