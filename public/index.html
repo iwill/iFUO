@@ -14,31 +14,19 @@
         <script type="text/javascript" src="javascripts/application.js"></script>
     </head>
     <body class="ui-widget">
-        <p>Date: <input id="datepicker" type="text" size="10"></p>
-        <canvas id="canvas" width="500" height="50"></canvas>
-        <div id="legend"></div>
-        <div id="add_task_div">
-            <form id="add_task_form" method="post">
-                <p><label for="taskName">Task Name:</label>
-                    <input id="taskName" class="text ui-widget-content ui-corner-all" type="text" name="taskName" size="80"/>
-                </p>
-                <input id="add_task_btn" type="submit" value="Add Task" />
-            </form>
-        </div>
-        <ol id="tasks"></ol>
-        <div id="submit_div">
-            Total hours: <span id="sum_hours"></span>
-        </div>
-        <div id="JSTemplateDiv" style="display: none;">
-            <textarea id="taskTemplate">
-            <!--begin
-                <li id="<%id%>" class="task_item ui-state-default">
-                    <span class="delete_task_btn ui-icon ui-icon-circle-close" task_id="<%id%>"></span>
-                    <input class="input_hour" size="3" type="text" name="hour" task_id="<%id%>" value="<%hour%>">
-                    <%name%> <br/>
-                </li>
-            end-->
-            </textarea>
+        <div class="center">
+            <p>Date: <input id="datepicker" type="text" size="10"></p>
+            <canvas id="canvas" width="800px" height="50px"></canvas>
+            <div id="legend"></div>
+            <div id="add_task_div">
+                <form id="add_task_form" method="post">
+                    <p>
+                        <label for="taskName">New Task:</label>
+                        <input id="taskName" class="text ui-widget-content ui-corner-all" type="text" name="taskName" maxlength="60"/>
+                    </p>
+                </form>
+            </div>
+            <ol id="tasks"></ol>
         </div>
     </body>
 </html>

@@ -33,13 +33,16 @@
     margin-right: 3px;
 }
 
-#tasks { list-style-type: numburic; margin: 0; padding: 0; width: 60%; }
+#taskName { font-size: 1.4em }
+#taskName, #tasks { width: 800px; }
+#tasks { list-style-type: numburic; margin: 0; padding: 0; }
 #tasks li { margin: 2px 3px 3px 20px; padding: 0.4em; padding-left: 1.5em;  height: 28px; }
 #tasks li span {position: absolute; margin-left: -1.3em; }
 #tasks .detail {margin: 0 3px 3px 3px; font-size:0.8em; color:#999;}
 
-label {display:block; width:100px;}
+.resources-graph-legend-header { width: 80px; height: 24px; overflow: hidden; }
 
-#submit_div {margin:20px 3px 20px 3px;}
+#ui-datepicker-div { display: none; }
 
-.input_hour { float:right; }
+.center { width: 800px; overflow: visible; margin-left: auto; margin-right: auto; }
+.input_hour { float: right; width: 40px; }

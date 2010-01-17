@@ -7,23 +7,22 @@ var TimeLog = function($) {
     };
 
     TimeLogItem.prototype = {
-        getDuration/* : function(parent) {
+        getDuration: function(parent) {
             return this._getDuration(parent) * 60 * 10;
         },
-        _getDuration */: function(parent) {
-            if(this.end_at){
+        _getDuration: function(parent) {
+            if(this.end_at) {
                 return this.end_at - this.start_at;
-            };
-            var endOfDayTime = parent.logs[0].start_at + parent.workingHours * 60 * 60 * 1000;
-            var currentTime = new Date().getTime();
-            if (currentTime > endOfDayTime){
-                return endOfDayTime - this.start_at;
-            } else {
-                return currentTime - this.start_at;
+            }
+            else {
+                return new Date().getTime() - this.start_at;
             }
         },
         finish: function() {
             this.end_at = new Date().getTime();
+        },
+        isFinished: function() {
+            return !!this.end_at;
         }
     };
 
@@ -42,28 +41,25 @@ var TimeLog = function($) {
     */
     TimeLog.prototype = {
         getActiveTask: function() {
-            var lastItem = this.logs[this.logs.length-1];
-            if (lastItem && lastItem.task_id != -1) {
-                return (lastItem.task_id);
-            } else {
-                return null;
+            for (var i in this.logs) {
+                if (!this.logs[i].isFinished()) {
+                    return this.logs[i];
+                }
             }
+            return null;
         },
 
         toggleTask: function(task_id) {
-            var lastItem = this.logs[this.logs.length-1];
-            lastItem && lastItem.finish();
-            if (lastItem && task_id == lastItem.task_id) {
-                var logItem = new TimeLogItem(this);
-                logItem.task_id = -1;
-                this.logs.push(logItem);
-            } else {
+            var activeTask = this.getActiveTask();
+            if (activeTask) {
+                activeTask.finish();
+            }
+            if (!activeTask || task_id != activeTask.task_id) {
                 var logItem = new TimeLogItem(this);
                 logItem.task_id = task_id;
                 this.logs.push(logItem);
             }
             this.store();
-            return logItem;
         },
 
         store: function() {
@@ -97,13 +93,11 @@ var TimeLog = function($) {
             if (!this.logs[0]) {
                 return this.workingHours * 60 * 60 * 1000;
             }
-            var endOfDayTime = this.logs[0].start_at + this.workingHours * 60 * 60 * 1000;
-            var currentTime = new Date().getTime();
-            if (currentTime >= endOfDayTime) {
-                return 0;
-            } else {
-                return endOfDayTime - currentTime;
+            var taskTime = 0;
+            for (var i=0; i < this.logs.length; i++) {
+                taskTime += this.logs[i].getDuration(this);
             }
+            return this.workingHours * 60 * 60 * 1000 - taskTime;
         }
     };
 
