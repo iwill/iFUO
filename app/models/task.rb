@@ -2,6 +2,12 @@ class Task < ActiveRecord::Base
   validates_presence_of :name
   has_many :timelogs, :order => 'start_at'
 
+  def initialize(opt=nil)
+    super(opt)
+    self.done = false
+    self.active = false
+  end
+
   def self.todos
     find_all_by_done(false,:order => "priority")
   end

@@ -44,7 +44,7 @@ class TasksController < ApplicationController
   
   # POST /tasks/reorder
   def reorder
-    Task.reorder(params[:ids].split '/')
+    Task.reorder(params[:ids])
     render :json => Task.todos.to_json
   end
   

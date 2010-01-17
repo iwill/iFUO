@@ -10,68 +10,64 @@ jQuery(function($) {
         }).append($("<span />", {
             "class": "delete_task_btn ui-icon ui-icon-circle-close",
             task_id: task.id
-        })).append($("<input />", {
-            name: "hour",
-            "class": "input_hour",
-            type: "text",
-            task_id: task.id,
-            value: task.hour
+        // })).append($("<input />", {
+        //     name: "hour",
+        //     "class": "input_hour",
+        //     type: "text",
+        //     task_id: task.id,
+        //     value: task.hour
         })).append(task.name);
     };
-
-    var refresh = function(timelog) {
-        tasksContainer.empty();
-        var orderedTasks = Task.getOrderedTasks();
-
-        for (var i = 0; i < orderedTasks.length; i++) {
-            if (!orderedTasks[i].done) {
-                orderedTasks[i].caculateHour(timelog);
-                tasksContainer.append(newTaskItem(orderedTasks[i]));
+    
+    var refresh = function() {
+        $.getJSON("/tasks", function(tasks){
+          tasksContainer.empty();
+          for (var i = 0; i < tasks.length; i++) {
+            var task = tasks[i];
+            tasksContainer.append(newTaskItem(task));
+            if (task.active){
+              $('#' + task.id).removeClass('ui-state-default').addClass('ui-state-highlight');
             }
-        }
-
-        var activeTask = timelog.getActiveTask();
-        if (activeTask) {
-            $('#' + activeTask.task_id).removeClass('ui-state-default');
-            $('#' + activeTask.task_id).addClass('ui-state-highlight');
-        }
+          }
+        });
 
         tasksContainer.sortable({
             placeholder: 'ui-state-highlight',
             update: function(event, ui) {
-                var orderList = tasksContainer.sortable('toArray');
-                Task.setTaskOrder(orderList);
+                $.post('/tasks/reorder',{"ids":tasksContainer.sortable('toArray')});
             }
         });
 
-        Indicator.draw(timelog,Task.tasks,Task.totalHours());
+        $.getJSON("/timelogs", function(logs){
+          Indicator.show(logs);
+        });
     };
 
     $('#datepicker').datepicker().datepicker( 'setDate' , new Date());
 
     var currentTimeLog = null;
     $('#datepicker').change(function() {
-        currentTimeLog = new TimeLog($('#datepicker').datepicker( 'getDate' ), 8);
-        currentTimeLog.load(function() {
-            refresh(currentTimeLog);
-        });
+      refresh();
     }).change();
 
     $('#add_task_form').submit(function(){
-        var newTask = Task.addTask($('#taskName').val()/* ,activityDetail */);
-        refresh(currentTimeLog);
-        $('#taskName').val('');
-        $('#taskName').focus();
+        $.post('/tasks',{"task":{"name":$('#taskName').val()}}, function() {
+          refresh(currentTimeLog);
+          $('#taskName').val('');
+          $('#taskName').focus();
+        });
         return false;
     });
 
     $(".delete_task_btn").live("click", function(){
-        Task.removeTask($(this).attr('task_id'));
-        refresh(currentTimeLog);
+        $.post('/tasks/'+$(this).attr('task_id'),{"_method":"delete"}, function() {
+          refresh(currentTimeLog);
+        });
     });
 
     $('.task_item').live("dblclick",function() {
-        currentTimeLog.toggleTask($(this).attr('id'));
-        refresh(currentTimeLog);
+        $.post('/tasks/'+$(this).attr('id')+"/toggle",{},function() {
+          refresh(currentTimeLog);
+        });
     });
 });

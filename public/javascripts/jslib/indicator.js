@@ -1,5 +1,12 @@
 var Indicator = function($) {
     var _SPACE_COLOR = "rgb(186,186,186)";
+    var DefaultColor = [
+        "rgb(157, 231, 119)",
+        "rgb(255, 12 , 62 )",
+        "rgb(164, 60 , 255)",
+        "rgb(255, 121, 0  )",
+        "rgb(231, 231, 10 )"
+    ];
 
     var _drawSummaryGraph = function(segments) {
         // if (!this.summaryGraphElement)
@@ -278,35 +285,36 @@ var Indicator = function($) {
     };
 
     var Indicator = {
-        draw: function(timelog,taskHash,totalHours) {
-            var fillSegments = [];
-            var logedTasks = {};
-            for (var i=0; i < timelog.logs.length; i++) {
-                var log = timelog.logs[i];
-                var task = taskHash[log.task_id];
-                var color = _SPACE_COLOR;
-                if (task) {
-                    color = task.color;
-                    logedTasks[task.id] = task;
-                }
-
-                var fillSegment = {color: color, value: log.getDuration(timelog)};
-                fillSegments.push(fillSegment);
-            }
-            var leftTime = timelog.leftTime();
-            if (leftTime > 0) {
-                fillSegments.push({color: _SPACE_COLOR, value: timelog.leftTime()});
-            }
-
-            $('#legend').empty();
-            for (var task_id in logedTasks){
-                var task = logedTasks[task_id];
-                $('#legend').append(_makeLegendElement(task.name, task.caculateHour(timelog)+"h", task.color, task.id));
-            }
-            $('#legend').append(_makeLegendElement('Total hours', totalHours+"h"));
-
-            _drawSummaryGraph(fillSegments);
+      show: function(timelogs) {
+        var fillSegments = [];
+        var totalHours = 0;
+        var logedTasks = {};
+        
+        for (var i=0; i < timelogs.length; i++) {
+          var log = timelogs[i];
+          var color = DefaultColor[log.task_id % DefaultColor.length];
+          var fillSegment = {color: color, value: log.duration};
+          if (logedTasks[log.task_id]) {
+            logedTasks[log.task_id].hours += log.duration;
+          } else {
+            logedTasks[log.task_id] = {"name":log.task_name, "hours":0, "color":color};
+          }
+          totalHours += log.duration;
+          fillSegments.push(fillSegment);
         }
+        var leftTime = 8 * 3600 - totalHours;
+        if (leftTime > 0) {
+          fillSegments.push({color: _SPACE_COLOR, value: leftTime});
+        };
+        $('#legend').empty();
+        for (var task_id in logedTasks){
+            var task = logedTasks[task_id];
+            $('#legend').append(_makeLegendElement(task.name, task.hours+"h", task.color, task_id));
+        }
+        $('#legend').append(_makeLegendElement('Total hours', totalHours+"h"));
+
+        _drawSummaryGraph(fillSegments);
+      }
     };
 
     return Indicator;
