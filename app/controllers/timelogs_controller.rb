@@ -1,18 +1,18 @@
 class TimelogsController < ApplicationController
 
-  # GET /timelogs.json
+  # GET /timelogs
   def index
     @timelogs = Timelog.all
     render :json => @timelogs 
   end
 
-  # GET /timelogs/1.json
+  # GET /timelogs/1
   def show
     @timelog = Timelog.find(params[:id])
     render :json => @timelog 
   end
 
-  # POST /timelogs.json
+  # POST /timelogs
   def create
     @timelog = Timelog.new(params[:timelog])
     if @timelog.save
@@ -22,7 +22,7 @@ class TimelogsController < ApplicationController
     end
   end
 
-  # PUT /timelogs/1.json
+  # PUT /timelogs/1
   def update
     @timelog = Timelog.find(params[:id])
     if @timelog.update_attributes(params[:timelog])
@@ -32,7 +32,7 @@ class TimelogsController < ApplicationController
     end
   end
 
-  # DELETE /timelogs/1.json
+  # DELETE /timelogs/1
   def destroy
     @timelog = Timelog.find(params[:id])
     @timelog.destroy

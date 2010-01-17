@@ -2,19 +2,19 @@ class TasksController < ApplicationController
 
   protect_from_forgery :except => :create
   
-  # GET /tasks.json
+  # GET /tasks
   def index
     @tasks = Task.all
     render :json => @tasks
   end
 
-  # GET /tasks/1.json
+  # GET /tasks/1
   def show
     @task = Task.find(params[:id])
     render :json => @task
   end
 
-  # POST /tasks.json
+  # POST /tasks
   def create
     @task = Task.new(params[:task])
     if @task.save
@@ -24,7 +24,7 @@ class TasksController < ApplicationController
     end
   end
 
-  # PUT /tasks/1.json
+  # PUT /tasks/1
   def update
     @task = Task.find(params[:id])
     if @task.update_attributes(params[:task])
@@ -34,7 +34,7 @@ class TasksController < ApplicationController
     end
   end
 
-  # DELETE /tasks/1.json
+  # DELETE /tasks/1
   def destroy
     @task = Task.find(params[:id])
     @task.destroy
