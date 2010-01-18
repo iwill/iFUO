@@ -230,7 +230,7 @@ var Indicator = function($) {
         var headerElement = document.createElement("div");
         headerElement.className = "resources-graph-legend-header";
         headerElement.setAttribute("width", "80");
-        headerElement.setAttribute("height", "24");
+        // headerElement.setAttribute("height", "24");
         headerElement.setAttribute("overflow", "hidden");
         headerElement.textContent = label;
         labelElement.appendChild(headerElement);
@@ -283,6 +283,10 @@ var Indicator = function($) {
 
         _fadeOutRect(ctx, 0, 13, 13, 13, 0.5, 0.0);
     };
+    
+    var _second2hour = function(s) {
+      return Math.round(s / 3600 * 10) / 10
+    };
 
     var Indicator = {
       show: function(timelogs) {
@@ -293,7 +297,7 @@ var Indicator = function($) {
         for (var i=0; i < timelogs.length; i++) {
           var log = timelogs[i];
           var color = DefaultColor[log.task_id % DefaultColor.length];
-          var fillSegment = {color: color, value: log.duration};
+          var fillSegment = {color: color, value: _second2hour(log.duration)};
           if (logedTasks[log.task_id]) {
             logedTasks[log.task_id].hours += log.duration;
           } else {
@@ -302,16 +306,16 @@ var Indicator = function($) {
           totalHours += log.duration;
           fillSegments.push(fillSegment);
         }
-        var leftTime = 8 * 3600 - totalHours;
+        var leftTime = 8 - _second2hour(totalHours);
         if (leftTime > 0) {
           fillSegments.push({color: _SPACE_COLOR, value: leftTime});
         };
         $('#legend').empty();
         for (var task_id in logedTasks){
             var task = logedTasks[task_id];
-            $('#legend').append(_makeLegendElement(task.name, task.hours+"h", task.color, task_id));
+            $('#legend').append(_makeLegendElement(task.name, _second2hour(task.hours)+"h", task.color, task_id));
         }
-        $('#legend').append(_makeLegendElement('Total hours', totalHours+"h"));
+        $('#legend').append(_makeLegendElement('Total hours', _second2hour(totalHours)+"h"));
 
         _drawSummaryGraph(fillSegments);
       }
