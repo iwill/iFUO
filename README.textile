@@ -6,7 +6,7 @@ It is my experiment using Rails 3 + jQuery1.4.
 But it will also be a handy tool for you to tracking your todo & time log.
 
 h2. ScreenShoot
-!http://site.com/image(ScreenShoot)!
+!http://github.com/zigzag/iFUO/blob/master/doc/ScreenShoot.png(ScreenShoot)!
 
 h2. Copyright
 
