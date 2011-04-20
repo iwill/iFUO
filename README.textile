@@ -10,5 +10,5 @@ h2. ScreenShoot
 
 h2. Copyright
 
-Copyright (c) 2009 zigzag & wills. See LICENSE for details.
+Copyright (c) 2009 zigzag & iwill. See LICENSE for details.
 
